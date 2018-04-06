@@ -28,10 +28,11 @@ io.on('connection', (socket) => {
   // informs other users that a new user has joined
   socket.broadcast.emit('newMessage', generateMessage('Admin','New user has joined'));
 
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log('createMessage', message);
     // send new message to all clients
     io.emit('newMessage', generateMessage(message.from,message.text));
+    callback('This is from the server');
   });
 
   socket.on('disconnect', () => {
