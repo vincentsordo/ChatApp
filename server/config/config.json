@@ -1,0 +1,12 @@
+{
+  "test":{
+    "PORT":3000,
+    "MONGODB_URI":"mongodb://localhost:27017/ChatAppTest",
+    "JWT_SECRET":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWM2OWM4ZDY0NDZmODE0Njk3Y2ExM2MiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTIyOTY1NjQ1fQ.y2HT8j1fDa_1P5DEJ1xzQ2OVg4bQ_C2OD6ZZ1akxfVs"
+  },
+  "development":{
+    "PORT":3000,
+    "MONGODB_URI":"mongodb://localhost:27017/ChatApp",
+    "JWT_SECRET":"23JhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YWM2OWM4ZDY0NDZmODE0Njk3Y2ExM2MiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTIyOTY1NjQ1fQ.y2HT8j1fDa_1P5DEJ1xzQ2OVg4bQ_C2OD6ZZ1akxfVs"
+  }
+}
