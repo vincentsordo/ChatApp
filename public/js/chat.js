@@ -55,24 +55,10 @@ socket.on('newMessage', function(message) {
   scrollToBottom();
 });
 
-socket.on('newLocationMessage', function(locationMessage) {
-  let template = jQuery('#locationMessageTemplate').html();
-  var formattedTime = moment(locationMessage.createdAt).format('h:mm a');
-  let html = Mustache.render(template, {
-    from: locationMessage.from,
-    url: locationMessage.url,
-    createdAt: formattedTime
-  });
-
-  jQuery('#messages').append(html);
-  scrollToBottom();
-});
-
 jQuery('#messageForm').on('submit', function(e) {
   e.preventDefault();
 
   socket.emit('createMessage', {
-    from: 'User',
     text: jQuery('[name=message]').val()
   }, function(data) {
     jQuery('[name=message]').val('');

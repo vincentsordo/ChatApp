@@ -8,7 +8,7 @@ const socketIO = require('socket.io');
 const port = process.env.PORT;
 
 const {generateMessage, generateLocationMessage} = require('./utils/message');
-const {isRealString} = require('./utils/validation');
+const {isRealString, isValidCoordinates} = require('./utils/validation');
 const {Users} = require('./utils/users');
 
 let app = express();
@@ -23,9 +23,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 // listen for a new connection, client connected to the server
 // socket represents the individual connection to the server for the client user
 io.on('connection', (socket) => {
-  console.log('New user connected');
-
-
+  console.log('New user connected', socket.id);
 
   socket.on('join', (params, callback) => {
     if(!isRealString(params.name) || !isRealString(params.room)) {
@@ -35,7 +33,6 @@ io.on('connection', (socket) => {
     socket.join(params.room);
     users.removeUser(socket.id);
     users.addUser(socket.id, params.name, params.room);
-    // socket.leave(room)
 
     io.to(params.room).emit('updateUserList', users.getUserList(params.room));
     // welcomes the user to the chat app
@@ -47,14 +44,13 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createMessage', (message, callback) => {
-    console.log('createMessage', message);
-    // send new message to all clients
-    io.emit('newMessage', generateMessage(message.from,message.text));
-    callback('This is from the server');
-  });
+    let user = Users.getUser(socket.id);
 
-  socket.on('createLocationMessage', (coords) => {
-    io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+    if (user && isRealString(message.text)) {
+      io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+    }
+
+      callback();
   });
 
   socket.on('disconnect', () => {
